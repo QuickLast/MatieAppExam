@@ -20,7 +20,11 @@ namespace MatieAppExam.DB
             this.Feedback = new HashSet<Feedback>();
             this.Queue = new HashSet<Queue>();
         }
-    
+
+        public User(string text1, string text2, int v1, int v2)
+        {
+        }
+
         public int IDUser { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }

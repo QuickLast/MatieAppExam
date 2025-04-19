@@ -10,7 +10,7 @@
         WindowStyle="None"
         Title="Матье" Height="450" Width="800">
     <Grid>
-        <Frame Source="Pages/MainPage.xaml" NavigationUIVisibility="Hidden"/>
+        <Frame Source="Pages/AuthPage.xaml" NavigationUIVisibility="Hidden"/>
         <DockPanel Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <TextBlock Margin="10" Width="35">Матье</TextBlock>
 
