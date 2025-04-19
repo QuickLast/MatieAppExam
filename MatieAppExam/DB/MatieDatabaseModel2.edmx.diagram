@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e3fac259b6284835a3adbba405b0afba" Name="Diagram1">
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.Direction" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.Feedback" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.Master" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.MasterQuality" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.MasterService" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.Queue" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.Service" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.User" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="MatieDatabaseExamModel.UserRole" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_MasterService_Direction" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_Feedback_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_Feedback_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_Master_MasterQuality" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_MasterService_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_Queue_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_MasterService_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_Queue_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MatieDatabaseExamModel.FK_User_UserRole" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

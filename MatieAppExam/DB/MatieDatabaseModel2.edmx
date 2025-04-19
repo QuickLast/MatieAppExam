@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище MatieDatabaseExamModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="IDDirection" />
+          </Key>
+          <Property Name="IDDirection" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="IDFeedback" />
+          </Key>
+          <Property Name="IDFeedback" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="250" />
+          <Property Name="IDUser" Type="int" />
+          <Property Name="IDMaster" Type="int" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="IDMaster" />
+          </Key>
+          <Property Name="IDMaster" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDQuality" Type="int" />
+        </EntityType>
+        <EntityType Name="MasterQuality">
+          <Key>
+            <PropertyRef Name="IDQuality" />
+          </Key>
+          <Property Name="IDQuality" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MasterService">
+          <Key>
+            <PropertyRef Name="IDMasterService" />
+          </Key>
+          <Property Name="IDMasterService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDService" Type="int" />
+          <Property Name="IDMaster" Type="int" />
+          <Property Name="IDDirection" Type="int" />
+        </EntityType>
+        <EntityType Name="Queue">
+          <Key>
+            <PropertyRef Name="IDQueue" />
+          </Key>
+          <Property Name="IDQueue" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDMaster" Type="int" />
+          <Property Name="IDUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateEdited" Type="date" />
+          <Property Name="ServicePhotoPath" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDUserRole" Type="int" />
+          <Property Name="Balance" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="IDUserRole" />
+          </Key>
+          <Property Name="IDUserRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Feedback_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Master_MasterQuality">
+          <End Role="MasterQuality" Type="Self.MasterQuality" Multiplicity="0..1" />
+          <End Role="Master" Type="Self.Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterQuality">
+              <PropertyRef Name="IDQuality" />
+            </Principal>
+            <Dependent Role="Master">
+              <PropertyRef Name="IDQuality" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterService_Direction">
+          <End Role="Direction" Type="Self.Direction" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direction">
+              <PropertyRef Name="IDDirection" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDDirection" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterService_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="IDUserRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IDUserRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MatieDatabaseExamModelContainer">
+          <EntitySet Name="Direction" EntityType="Self.Direction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Master" EntityType="Self.Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterQuality" EntityType="Self.MasterQuality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterService" EntityType="Self.MasterService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Queue" EntityType="Self.Queue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Feedback_Master" Association="Self.FK_Feedback_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="Self.FK_Feedback_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Master_MasterQuality" Association="Self.FK_Master_MasterQuality">
+            <End Role="MasterQuality" EntitySet="MasterQuality" />
+            <End Role="Master" EntitySet="Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterService_Direction" Association="Self.FK_MasterService_Direction">
+            <End Role="Direction" EntitySet="Direction" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterService_Master" Association="Self.FK_MasterService_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterService_Service" Association="Self.FK_MasterService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Master" Association="Self.FK_Queue_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_User" Association="Self.FK_Queue_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserRole" Association="Self.FK_User_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MatieDatabaseExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="IDDirection" />
+          </Key>
+          <Property Name="IDDirection" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MasterService" Relationship="Self.FK_MasterService_Direction" FromRole="Direction" ToRole="MasterService" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="IDFeedback" />
+          </Key>
+          <Property Name="IDFeedback" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IDUser" Type="Int32" />
+          <Property Name="IDMaster" Type="Int32" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_Feedback_Master" FromRole="Feedback" ToRole="Master" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Feedback_User" FromRole="Feedback" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="IDMaster" />
+          </Key>
+          <Property Name="IDMaster" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDQuality" Type="Int32" />
+          <NavigationProperty Name="Feedback" Relationship="Self.FK_Feedback_Master" FromRole="Master" ToRole="Feedback" />
+          <NavigationProperty Name="MasterQuality" Relationship="Self.FK_Master_MasterQuality" FromRole="Master" ToRole="MasterQuality" />
+          <NavigationProperty Name="MasterService" Relationship="Self.FK_MasterService_Master" FromRole="Master" ToRole="MasterService" />
+          <NavigationProperty Name="Queue" Relationship="Self.FK_Queue_Master" FromRole="Master" ToRole="Queue" />
+        </EntityType>
+        <EntityType Name="MasterQuality">
+          <Key>
+            <PropertyRef Name="IDQuality" />
+          </Key>
+          <Property Name="IDQuality" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_Master_MasterQuality" FromRole="MasterQuality" ToRole="Master" />
+        </EntityType>
+        <EntityType Name="MasterService">
+          <Key>
+            <PropertyRef Name="IDMasterService" />
+          </Key>
+          <Property Name="IDMasterService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDService" Type="Int32" />
+          <Property Name="IDMaster" Type="Int32" />
+          <Property Name="IDDirection" Type="Int32" />
+          <NavigationProperty Name="Direction" Relationship="Self.FK_MasterService_Direction" FromRole="MasterService" ToRole="Direction" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_MasterService_Master" FromRole="MasterService" ToRole="Master" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_MasterService_Service" FromRole="MasterService" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Queue">
+          <Key>
+            <PropertyRef Name="IDQueue" />
+          </Key>
+          <Property Name="IDQueue" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDMaster" Type="Int32" />
+          <Property Name="IDUser" Type="Int32" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_Queue_Master" FromRole="Queue" ToRole="Master" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Queue_User" FromRole="Queue" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateEdited" Type="DateTime" Precision="0" />
+          <Property Name="ServicePhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MasterService" Relationship="Self.FK_MasterService_Service" FromRole="Service" ToRole="MasterService" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDUserRole" Type="Int32" />
+          <Property Name="Balance" Type="Int32" />
+          <NavigationProperty Name="Feedback" Relationship="Self.FK_Feedback_User" FromRole="User" ToRole="Feedback" />
+          <NavigationProperty Name="Queue" Relationship="Self.FK_Queue_User" FromRole="User" ToRole="Queue" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_User_UserRole" FromRole="User" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="IDUserRole" />
+          </Key>
+          <Property Name="IDUserRole" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_UserRole" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_MasterService_Direction">
+          <End Role="Direction" Type="Self.Direction" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direction">
+              <PropertyRef Name="IDDirection" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDDirection" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Master_MasterQuality">
+          <End Role="MasterQuality" Type="Self.MasterQuality" Multiplicity="0..1" />
+          <End Role="Master" Type="Self.Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterQuality">
+              <PropertyRef Name="IDQuality" />
+            </Principal>
+            <Dependent Role="Master">
+              <PropertyRef Name="IDQuality" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterService_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Master">
+          <End Role="Master" Type="Self.Master" Multiplicity="0..1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master">
+              <PropertyRef Name="IDMaster" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="IDMaster" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="MasterService" Type="Self.MasterService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="IDService" />
+            </Principal>
+            <Dependent Role="MasterService">
+              <PropertyRef Name="IDService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IDUser" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="IDUserRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IDUserRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MatieDatabaseExamEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Direction" EntityType="Self.Direction" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" />
+          <EntitySet Name="Master" EntityType="Self.Master" />
+          <EntitySet Name="MasterQuality" EntityType="Self.MasterQuality" />
+          <EntitySet Name="MasterService" EntityType="Self.MasterService" />
+          <EntitySet Name="Queue" EntityType="Self.Queue" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" />
+          <AssociationSet Name="FK_MasterService_Direction" Association="Self.FK_MasterService_Direction">
+            <End Role="Direction" EntitySet="Direction" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Master" Association="Self.FK_Feedback_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="Self.FK_Feedback_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Master_MasterQuality" Association="Self.FK_Master_MasterQuality">
+            <End Role="MasterQuality" EntitySet="MasterQuality" />
+            <End Role="Master" EntitySet="Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterService_Master" Association="Self.FK_MasterService_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Master" Association="Self.FK_Queue_Master">
+            <End Role="Master" EntitySet="Master" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterService_Service" Association="Self.FK_MasterService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="MasterService" EntitySet="MasterService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_User" Association="Self.FK_Queue_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserRole" Association="Self.FK_User_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MatieDatabaseExamModelContainer" CdmEntityContainer="MatieDatabaseExamEntities1">
+          <EntitySetMapping Name="Direction">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.Direction">
+              <MappingFragment StoreEntitySet="Direction">
+                <ScalarProperty Name="IDDirection" ColumnName="IDDirection" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedback">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="IDFeedback" ColumnName="IDFeedback" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+                <ScalarProperty Name="IDMaster" ColumnName="IDMaster" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Master">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.Master">
+              <MappingFragment StoreEntitySet="Master">
+                <ScalarProperty Name="IDMaster" ColumnName="IDMaster" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IDQuality" ColumnName="IDQuality" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterQuality">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.MasterQuality">
+              <MappingFragment StoreEntitySet="MasterQuality">
+                <ScalarProperty Name="IDQuality" ColumnName="IDQuality" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterService">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.MasterService">
+              <MappingFragment StoreEntitySet="MasterService">
+                <ScalarProperty Name="IDMasterService" ColumnName="IDMasterService" />
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="IDMaster" ColumnName="IDMaster" />
+                <ScalarProperty Name="IDDirection" ColumnName="IDDirection" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Queue">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.Queue">
+              <MappingFragment StoreEntitySet="Queue">
+                <ScalarProperty Name="IDQueue" ColumnName="IDQueue" />
+                <ScalarProperty Name="IDMaster" ColumnName="IDMaster" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateEdited" ColumnName="DateEdited" />
+                <ScalarProperty Name="ServicePhotoPath" ColumnName="ServicePhotoPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IDUserRole" ColumnName="IDUserRole" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="MatieDatabaseExamModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="IDUserRole" ColumnName="IDUserRole" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
