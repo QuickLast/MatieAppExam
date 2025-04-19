@@ -17,12 +17,12 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="1">
-                                <StackPanel Orientation="Horizontal" Width="450" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <DockPanel Width="450" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                     <Border BorderBrush="Black" BorderThickness="1">
                                         <Image Source="{Binding ServicePhotoPath}" Width="80"></Image>
                                     </Border>
                                     <TextBlock HorizontalAlignment="Right" Text="{Binding Name}"></TextBlock>
-                                </StackPanel>
+                                </DockPanel>
                             </Border>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -33,12 +33,12 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="1">
-                                <StackPanel Orientation="Horizontal" Width="450" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <DockPanel Width="450" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                                     <Border BorderBrush="Black" BorderThickness="1">
                                         <Image Source="{Binding ServicePhotoPath}" Width="80"></Image>
                                     </Border>
                                     <TextBlock HorizontalAlignment="Right" Text="{Binding Name}"></TextBlock>
-                                </StackPanel>
+                                </DockPanel>
                             </Border>
                         </DataTemplate>
                     </ListView.ItemTemplate>
